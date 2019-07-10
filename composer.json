@@ -1,18 +1,18 @@
 {
-    "name": "nsulistiyawan/bpjs",
-    "description": "Wrapper for BPJS Indonesia",
+    "name": "awageeks/bpjs-v3",
+    "description": "Wrapper for BPJS Indonesia Web Service API v3",
     "type": "package",
     "authors": [
         {
-            "name": "Neno Sulistiyawan",
-            "email": "aburamesino@gmail.com"
+            "name": "AWA Geeks",
+            "email": "awageeks@gmail.com"
         }
     ],
     "license": "mit",
     "minimum-stability": "dev",
     "autoload": {
         "psr-4": {
-            "Nsulistiyawan\\Bpjs\\": "src/"
+            "Awageeks\\Bpjs\\": "src/"
         }
     },
     "require": {
