@@ -1,49 +1,12 @@
 # BPJS Kesehatan Indonesia
-PHP package to access BPJS Kesehatan API :ambulance:.
-This package is a wrapper of BPJS VClaim Web Service
-https://dvlp.bpjs-kesehatan.go.id/VClaim-Katalog
+PHP package to access BPJS Kesehatan API.
 
-Created because i don't really wanna get my hands dirty coz of using the old php-curl
-:shit: example.
+This package is a wrapper of BPJS Web Service v3
+https://dvlp.bpjs-kesehatan.go.id:9081/pcare-rest-v3.0/#p_pengguna
 
-#### Installation :fire:
+#### Installation
 
-`composer require nsulistiyawan/bpjs`
+`composer require awageeks/bpjs-v3`
 
-#### Example Usage :confetti_ball:
-```php
-//use your own bpjs config
-$vclaim_conf = [
-    'cons_id' => '123456',
-    'secret_key' => '123456',
-    'base_url' => 'https://dvlp.bpjs-kesehatan.go.id',
-    'service_name' => 'vclaim-rest'
-];
-
-// use Referensi service
-// https://dvlp.bpjs-kesehatan.go.id/VClaim-Katalog/Referensi
-
-$referensi = new Nsulistiyawan\Bpjs\VClaim\Referensi($vclaim_conf);
-var_dump($referensi->diagnosa('A00'));
-
-//use Peserta service
-//https://dvlp.bpjs-kesehatan.go.id/VClaim-Katalog/Peserta
-
-$peserta = new \Nsulistiyawan\Bpjs\VClaim\Peserta($vclaim_conf);
-var_dump($peserta->getByNoKartu('123456789','2018-09-16'));
-```
-
-
-#### Supported Services (WIP) :rocket:
-
-- [x] Referensi
-- [x] Peserta
-- [x] SEP
-- [x] Rujukan
-- [x] Lembar Pengajuan Klaim
-- [x] Monitoring
-- [x] Aplicare
-
-
-#### Contributions :ok_hand:
+#### Contributions
 Your contribution is always welcome!
