@@ -5,37 +5,6 @@ use Awageeks\Bpjs\BpjsService;
 
 class Referensi extends BpjsService
 {
-
-    public function diagnosa($keyword, $start = 0, $limit = 10)
-    {
-        $response = $this->get("diagnosa/{$keyword}/{$start}/{$limit}");
-        return json_decode($response, true);
-    }
-
-    public function dokter($start = 0, $limit = 10)
-    {
-        $response = $this->get("dokter/{$start}/{$limit}");
-        return json_decode($response, true);
-    }
-
-    public function kesadaran()
-    {
-        $response = $this->get("kesadaran");
-        return json_decode($response, true);
-    }
-
-    public function rujukan($nomorKunjungan)
-    {
-        $response = $this->get("kunjungan/rujukan/{$nomorKunjungan}");
-        return json_decode($response, true);
-    }
-
-    public function riwayatKunjungan($nomorKartu)
-    {
-        $response = $this->get("kunjungan/peserta/{$nomorKartu}");
-        return json_decode($response, true);
-    }
-
     public function mcu($nomorKunjungan)
     {
         $response = $this->get("mcu/kunjungan/{$nomorKunjungan}");

@@ -71,6 +71,11 @@ class BpjsService{
      */
     private $service_name;
 
+    /**
+     * @var string
+     */
+    protected $feature;
+
     public function __construct($configurations = [])
     {
         $this->clients = new Client([
@@ -88,6 +93,46 @@ class BpjsService{
 
         //set X-Timestamp, X-Signature, and finally the headers
         $this->setTimestamp()->setSignature()->setAuthorization()->setHeaders();
+    }
+
+    public function index($start = null, $limit = null)
+    {
+        $feature = $this->feature;
+        if($start !== null and $limit !== null) {
+            $response = $this->get("{$feature}/{$start}/{$limit}");
+        } else {
+            $response = $this->get("{$feature}");
+        }
+        return json_decode($response, true);
+    }
+
+    public function show($keyword, $start = null, $limit = null)
+    {
+        $feature = $this->feature;
+        if($start !== null and $limit !== null) {
+            $response = $this->get("{$feature}/{$keyword}/{$start}/{$limit}");
+        } else {
+            $response = $this->get("{$feature}/{$keyword}");
+        }
+        return json_decode($response, true);
+    }
+
+    public function store($data = [])
+    {
+        $response = $this->post($this->feature, $data);
+        return json_decode($response, true);
+    }
+
+    public function update($data = [])
+    {
+        $response = $this->put($this->feature, $data);
+        return json_decode($response, true);
+    }
+
+    public function destroy($keyword)
+    {
+        $response = $this->delete($this->feature, $keyword);
+        return json_decode($response, true);
     }
 
     protected function setHeaders()
