@@ -189,7 +189,8 @@ class BpjsService{
 
     protected function post($feature, $data = [], $headers = [])
     {
-        $this->headers['Content-Type'] = 'application/x-www-form-urlencoded';
+        $this->headers['Content-Type'] = 'application/json';
+        $this->headers['Accept'] = 'application/json';
         if(!empty($headers)){
             $this->headers = array_merge($this->headers,$headers);
         }
@@ -199,7 +200,7 @@ class BpjsService{
                 "{$this->base_url}/{$this->service_name}/{$feature}",
                 [
                     'headers' => $this->headers,
-                    'json'    => $data,
+                    'body'    => json_encode($data),
                 ]
             )->getBody()->getContents();
         } catch (\Exception $e) {
@@ -210,14 +211,15 @@ class BpjsService{
 
     protected function put($feature, $data = [])
     {
-        $this->headers['Content-Type'] = 'application/x-www-form-urlencoded';
+        $this->headers['Content-Type'] = 'application/json';
+        $this->headers['Accept'] = 'application/json';
         try {
             $response = $this->clients->request(
                 'PUT',
                 "{$this->base_url}/{$this->service_name}/{$feature}",
                 [
                     'headers' => $this->headers,
-                    'json'    => $data,
+                    'body'    => json_encode($data),
                 ]
             )->getBody()->getContents();
         } catch (\Exception $e) {
@@ -227,16 +229,16 @@ class BpjsService{
     }
 
 
-    protected function delete($feature, $data = [])
+    protected function delete($feature, $id)
     {
-        $this->headers['Content-Type'] = 'application/x-www-form-urlencoded';
+        $this->headers['Content-Type'] = 'application/json';
+        $this->headers['Accept'] = 'application/json';
         try {
             $response = $this->clients->request(
                 'DELETE',
-                "{$this->base_url}/{$this->service_name}/{$feature}",
+                "{$this->base_url}/{$this->service_name}/{$feature}/{$id}",
                 [
                     'headers' => $this->headers,
-                    'json'    => $data,
                 ]
             )->getBody()->getContents();
         } catch (\Exception $e) {
