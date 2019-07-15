@@ -270,4 +270,31 @@ class BpjsService
         }
         return $response;
     }
+
+    protected function deleteWithParameters($feature, $parameters)
+    {
+        $params = '';
+        foreach ($parameters as $key => $value) {
+            if (is_int($key)) {
+                $params .= "/{$value}";
+            } else {
+                $params .= "/{$key}/{$value}";
+            }
+
+        }
+        $this->headers['Content-Type'] = 'application/json';
+        $this->headers['Accept'] = 'application/json';
+        try {
+            $response = $this->clients->request(
+                'DELETE',
+                "{$this->base_url}/{$this->service_name}/{$feature}/{$params}",
+                [
+                    'headers' => $this->headers,
+                ]
+            )->getBody()->getContents();
+        } catch (\Exception $e) {
+            $response = $e->getResponse()->getBody();
+        }
+        return $response;
+    }
 }

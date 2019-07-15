@@ -5,18 +5,6 @@ use Awageeks\Bpjs\BpjsService;
 
 class Referensi extends BpjsService
 {
-    public function obat($keyword, $start = 0, $limit = 10)
-    {
-        $response = $this->get("obat/dpho/{$keyword}/{$start}/{$limit}");
-        return json_decode($response, true);
-    }
-
-    public function obatByKunjungan($nomorKunjungan)
-    {
-        $response = $this->get("obat/kunjungan/{$nomorKunjungan}");
-        return json_decode($response, true);
-    }
-
     public function pendaftaranByNomorUrut($nomorUrut, $tanggalDaftar)
     {
         $response = $this->get("pendaftaran/noUrut/{$nomorUrut}/tglDaftar/{$tanggalDaftar}");
