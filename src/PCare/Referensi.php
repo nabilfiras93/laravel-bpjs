@@ -5,25 +5,6 @@ use Awageeks\Bpjs\BpjsService;
 
 class Referensi extends BpjsService
 {
-    public function tindakan($kodeTkp, $start = 0, $limit = 10)
-    {
-        $response = $this->get("tindakan/kdTkp/{$kodeTkp}/{$start}/{$limit}");
-        return json_decode($response, true);
-    }
-
-    public function tindakanByKunjungan($nomorKunjungan)
-    {
-        $response = $this->get("tindakan/kunjungan/{$nomorKunjungan}");
-        return json_decode($response, true);
-    }
-
-    public function statusPulang($rawatInap = true)
-    {
-        $isRawatInap = var_export($rawatInap, true);
-        $response = $this->get("statuspulang/rawatInap/{$isRawatInap}");
-        return json_decode($response, true);
-    }
-
     public function kelompokClub($kodeJenisKelompok)
     {
         $response = $this->get("kelompok/club/{$kodeJenisKelompok}");
