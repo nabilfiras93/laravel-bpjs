@@ -5,24 +5,6 @@ use Awageeks\Bpjs\BpjsService;
 
 class Referensi extends BpjsService
 {
-    public function pendaftaranByNomorUrut($nomorUrut, $tanggalDaftar)
-    {
-        $response = $this->get("pendaftaran/noUrut/{$nomorUrut}/tglDaftar/{$tanggalDaftar}");
-        return json_decode($response, true);
-    }
-
-    public function pendaftaranProvider($tanggalDaftar, $start = 0, $limit = 10)
-    {
-        $response = $this->get("pendaftaran/tglDaftar/{$tanggalDaftar}/{$start}/{$limit}");
-        return json_decode($response, true);
-    }
-
-    public function peserta($keyword, $jenisKartu = 'noka')
-    {
-        $response = $this->get("peserta/{$jenisKartu}/{$keyword}");
-        return json_decode($response, true);
-    }
-
     public function poli($start = 0, $limit = 10)
     {
         $response = $this->get("poli/fktp/{$start}/{$limit}");
