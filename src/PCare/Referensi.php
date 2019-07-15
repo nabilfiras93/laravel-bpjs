@@ -5,18 +5,6 @@ use Awageeks\Bpjs\BpjsService;
 
 class Referensi extends BpjsService
 {
-    public function poli($start = 0, $limit = 10)
-    {
-        $response = $this->get("poli/fktp/{$start}/{$limit}");
-        return json_decode($response, true);
-    }
-
-    public function provider($start = 0, $limit = 10)
-    {
-        $response = $this->get("provider/{$start}/{$limit}");
-        return json_decode($response, true);
-    }
-
     public function tindakan($kodeTkp, $start = 0, $limit = 10)
     {
         $response = $this->get("tindakan/kdTkp/{$kodeTkp}/{$start}/{$limit}");
