@@ -5,24 +5,6 @@ use Awageeks\Bpjs\BpjsService;
 
 class Referensi extends BpjsService
 {
-    public function kelompokClub($kodeJenisKelompok)
-    {
-        $response = $this->get("kelompok/club/{$kodeJenisKelompok}");
-        return json_decode($response, true);
-    }
-
-    public function kelompokKegiatan($tanggal)
-    {
-        $response = $this->get("kelompok/kegiatan/{$tanggal}");
-        return json_decode($response, true);
-    }
-
-    public function kelompokPeserta($eduId)
-    {
-        $response = $this->get("kelompok/peserta/{$eduId}");
-        return json_decode($response, true);
-    }
-
     public function spesialis()
     {
         $response = $this->get("spesialis");
