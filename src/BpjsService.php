@@ -3,8 +3,8 @@ namespace Awageeks\Bpjs;
 
 use GuzzleHttp\Client;
 
-class BpjsService{
-
+class BpjsService
+{
     /**
      * Guzzle HTTP Client object
      * @var \GuzzleHttp\Client
@@ -170,6 +170,31 @@ class BpjsService{
         return $this;
     }
 
+    protected function getClients()
+    {
+        return $this->clients;
+    }
+
+    protected function addHeader($key, $value)
+    {
+        $this->headers[$key] = $value;
+    }
+
+    protected function getHeaders()
+    {
+        return $this->headers;
+    }
+
+    protected function getBaseUrl()
+    {
+        return $this->base_url;
+    }
+
+    protected function getServiceName()
+    {
+        return $this->service_name;
+    }
+
     protected function get($feature)
     {
         $this->headers['Content-Type'] = 'application/json; charset=utf-8';
@@ -228,7 +253,6 @@ class BpjsService{
         return $response;
     }
 
-
     protected function delete($feature, $id)
     {
         $this->headers['Content-Type'] = 'application/json';
@@ -246,5 +270,4 @@ class BpjsService{
         }
         return $response;
     }
-
 }

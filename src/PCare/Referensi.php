@@ -5,12 +5,6 @@ use Awageeks\Bpjs\BpjsService;
 
 class Referensi extends BpjsService
 {
-    public function mcu($nomorKunjungan)
-    {
-        $response = $this->get("mcu/kunjungan/{$nomorKunjungan}");
-        return json_decode($response, true);
-    }
-
     public function obat($keyword, $start = 0, $limit = 10)
     {
         $response = $this->get("obat/dpho/{$keyword}/{$start}/{$limit}");
