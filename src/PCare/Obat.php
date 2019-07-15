@@ -25,7 +25,7 @@ class Obat extends BpjsService
     {
         // dirty hack https://stackoverflow.com/a/27329541/2699436
         list($kodeObat, $nomorKunjungan) = func_get_args();
-        $response = $this->deleteWithParameters($this->feature, [$kodeObat, 'kunjungan' => $nomorKunjungan]);
+        $response = $this->delete($this->feature, $kodeObat, ['kunjungan' => $nomorKunjungan]);
         return json_decode($response, true);
     }
 }

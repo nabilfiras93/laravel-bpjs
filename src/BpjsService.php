@@ -195,13 +195,14 @@ class BpjsService
         return $this->service_name;
     }
 
-    protected function get($feature)
+    protected function get($feature, $parameters)
     {
+        $params = $this->getParams($parameters);
         $this->headers['Content-Type'] = 'application/json; charset=utf-8';
         try {
             $response = $this->clients->request(
                 'GET',
-                "{$this->base_url}/{$this->service_name}/{$feature}",
+                "{$this->base_url}/{$this->service_name}/{$feature}{$params}",
                 [
                     'headers' => $this->headers
                 ]
@@ -253,14 +254,15 @@ class BpjsService
         return $response;
     }
 
-    protected function delete($feature, $id)
+    protected function delete($feature, $id, $parameters = [])
     {
+        $params = $this->getParams($parameters);
         $this->headers['Content-Type'] = 'application/json';
         $this->headers['Accept'] = 'application/json';
         try {
             $response = $this->clients->request(
                 'DELETE',
-                "{$this->base_url}/{$this->service_name}/{$feature}/{$id}",
+                "{$this->base_url}/{$this->service_name}/{$feature}/{$id}{$params}",
                 [
                     'headers' => $this->headers,
                 ]
@@ -271,7 +273,7 @@ class BpjsService
         return $response;
     }
 
-    protected function deleteWithParameters($feature, $parameters)
+    private function getParams($parameters)
     {
         $params = '';
         foreach ($parameters as $key => $value) {
@@ -280,21 +282,7 @@ class BpjsService
             } else {
                 $params .= "/{$key}/{$value}";
             }
-
         }
-        $this->headers['Content-Type'] = 'application/json';
-        $this->headers['Accept'] = 'application/json';
-        try {
-            $response = $this->clients->request(
-                'DELETE',
-                "{$this->base_url}/{$this->service_name}/{$feature}/{$params}",
-                [
-                    'headers' => $this->headers,
-                ]
-            )->getBody()->getContents();
-        } catch (\Exception $e) {
-            $response = $e->getResponse()->getBody();
-        }
-        return $response;
+        return $params;
     }
 }
