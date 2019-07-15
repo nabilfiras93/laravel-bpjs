@@ -9,15 +9,15 @@ class Kunjungan extends BpjsService
      */
     protected $feature = 'kunjungan';
 
-    public function rujukan()
+    public function rujukan($nomorKunjungan)
     {
-        $this->feature .= '/rujukan';
+        $this->feature .= "/rujukan/{$nomorKunjungan}";
         return $this;
     }
 
-    public function peserta()
+    public function riwayat($nomorKartu)
     {
-        $this->feature .= '/peserta';
+        $this->feature .= "/peserta/{$nomorKartu}";
         return $this;
     }
 }

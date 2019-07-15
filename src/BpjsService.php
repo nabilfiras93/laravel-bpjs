@@ -95,10 +95,16 @@ class BpjsService
         $this->setTimestamp()->setSignature()->setAuthorization()->setHeaders();
     }
 
+    public function keyword($keyword)
+    {
+        $this->feature .= "/{$keyword}";
+        return $this;
+    }
+
     public function index($start = null, $limit = null)
     {
         $feature = $this->feature;
-        if($start !== null and $limit !== null) {
+        if ($start !== null and $limit !== null) {
             $response = $this->get("{$feature}/{$start}/{$limit}");
         } else {
             $response = $this->get("{$feature}");
@@ -106,13 +112,15 @@ class BpjsService
         return json_decode($response, true);
     }
 
-    public function show($keyword, $start = null, $limit = null)
+    public function show($keyword = null, $start = null, $limit = null)
     {
         $feature = $this->feature;
-        if($start !== null and $limit !== null) {
+        if ($start !== null and $limit !== null) {
             $response = $this->get("{$feature}/{$keyword}/{$start}/{$limit}");
-        } else {
+        } elseif ($keyword !== null) {
             $response = $this->get("{$feature}/{$keyword}");
+        } else {
+            $response = $this->get("{$feature}");
         }
         return json_decode($response, true);
     }
@@ -129,9 +137,9 @@ class BpjsService
         return json_decode($response, true);
     }
 
-    public function destroy($keyword)
+    public function destroy($keyword = null, $parameters = [])
     {
-        $response = $this->delete($this->feature, $keyword);
+        $response = $this->delete($this->feature, $keyword, $parameters);
         return json_decode($response, true);
     }
 
@@ -195,7 +203,7 @@ class BpjsService
         return $this->service_name;
     }
 
-    protected function get($feature, $parameters)
+    protected function get($feature, $parameters = [])
     {
         $params = $this->getParams($parameters);
         $this->headers['Content-Type'] = 'application/json; charset=utf-8';
@@ -217,8 +225,8 @@ class BpjsService
     {
         $this->headers['Content-Type'] = 'application/json';
         $this->headers['Accept'] = 'application/json';
-        if(!empty($headers)){
-            $this->headers = array_merge($this->headers,$headers);
+        if (!empty($headers)){
+            $this->headers = array_merge($this->headers, $headers);
         }
         try {
             $response = $this->clients->request(
@@ -259,10 +267,16 @@ class BpjsService
         $params = $this->getParams($parameters);
         $this->headers['Content-Type'] = 'application/json';
         $this->headers['Accept'] = 'application/json';
+        $url = "{$this->base_url}/{$this->service_name}";
+        if ($id !== null) {
+            $url .= "/{$feature}/{$id}";
+        } else {
+            $url .= "/{$feature}";
+        }
         try {
             $response = $this->clients->request(
                 'DELETE',
-                "{$this->base_url}/{$this->service_name}/{$feature}/{$id}{$params}",
+                "{$url}{$params}",
                 [
                     'headers' => $this->headers,
                 ]
