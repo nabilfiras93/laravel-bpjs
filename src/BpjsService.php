@@ -210,7 +210,6 @@ class BpjsService
         $params = $this->getParams($parameters);
         $this->headers['Content-Type'] = 'application/json; charset=utf-8';
         try {
-            throw new \Exception('FOOBAR');
             $response = $this->clients->request(
                 'GET',
                 "{$this->base_url}/{$this->service_name}/{$feature}{$params}",
