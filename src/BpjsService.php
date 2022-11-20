@@ -2,6 +2,8 @@
 namespace Awageeks\Bpjs;
 
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\ClientException;
+use phpDocumentor\Reflection\Types\This;
 
 class BpjsService
 {
@@ -208,15 +210,16 @@ class BpjsService
         $params = $this->getParams($parameters);
         $this->headers['Content-Type'] = 'application/json; charset=utf-8';
         try {
+            throw new \Exception('FOOBAR');
             $response = $this->clients->request(
                 'GET',
                 "{$this->base_url}/{$this->service_name}/{$feature}{$params}",
                 [
                     'headers' => $this->headers
                 ]
-            )->getBody()->getContents();
+            )->getBody()->getContents(); 
         } catch (\Exception $e) {
-            $response = $e->getResponse()->getBody();
+            $response =  $this->decorateException($e);
         }
         return $response;
     }
@@ -238,7 +241,7 @@ class BpjsService
                 ]
             )->getBody()->getContents();
         } catch (\Exception $e) {
-            $response = $e->getResponse()->getBody();
+            $response =  $this->decorateException($e);
         }
         return $response;
     }
@@ -257,7 +260,7 @@ class BpjsService
                 ]
             )->getBody()->getContents();
         } catch (\Exception $e) {
-            $response = $e->getResponse()->getBody();
+            $response =  $this->decorateException($e);
         }
         return $response;
     }
@@ -282,7 +285,7 @@ class BpjsService
                 ]
             )->getBody()->getContents();
         } catch (\Exception $e) {
-            $response = $e->getResponse()->getBody();
+            $response =  $this->decorateException($e);
         }
         return $response;
     }
@@ -298,5 +301,33 @@ class BpjsService
             }
         }
         return $params;
+    }
+
+    private function decorateException($e)
+    {
+        $message = $e->getMessage();
+        $code = $e->getCode();
+
+        if ($e instanceof ClientException) {
+            if ($e->hasResponse()) {
+                $response = $e->getResponse();
+                $code = $response->getStatusCode();
+                $message = $response->getReasonPhrase();
+                $body = (string) $response->getBody();
+                $message = "{$message}: {$body}";
+            }
+        } else {
+            $message = $e->getMessage();
+            $code = $e->getCode();
+        }
+
+        \Log::error($message . PHP_EOL . $e->getTraceAsString());
+        return json_encode([
+            'response' => [],
+            'metaData' =>  [
+                'message' => $message,
+                'code' => $code ?: 400,
+            ],
+        ]);
     }
 }
