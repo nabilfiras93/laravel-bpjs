@@ -61,6 +61,11 @@ class BpjsService
     /**
      * @var string
      */
+    private $user_key;
+
+    /**
+     * @var string
+     */
     private $app_code;
 
     /**
@@ -111,7 +116,7 @@ class BpjsService
         } else {
             $response = $this->get("{$feature}");
         }
-        return json_decode($response, true);
+        return $this->decorateResponse($response);
     }
 
     public function show($keyword = null, $start = null, $limit = null)
@@ -124,42 +129,41 @@ class BpjsService
         } else {
             $response = $this->get("{$feature}");
         }
-        return json_decode($response, true);
+        return $this->decorateResponse($response);
     }
 
     public function store($data = [])
     {
         $response = $this->post($this->feature, $data);
-        return json_decode($response, true);
+        return $this->decorateResponse($response);
     }
 
     public function update($data = [])
     {
         $response = $this->put($this->feature, $data);
-        return json_decode($response, true);
+        return $this->decorateResponse($response);
     }
 
     public function destroy($keyword = null, $parameters = [])
     {
         $response = $this->delete($this->feature, $keyword, $parameters);
-        return json_decode($response, true);
+        return $this->decorateResponse($response);
     }
 
     protected function setHeaders()
     {
-        $this->headers = [
-            'X-cons-id'       => $this->cons_id,
-            'X-Timestamp'     => $this->timestamp,
-            'X-Signature'     => $this->signature,
-            'X-Authorization' => $this->authorization,
-        ];
+        $this->addHeader('X-cons-id', $this->cons_id);
+        $this->addHeader('X-timestamp', $this->timestamp);
+        $this->addHeader('X-signature', $this->signature);
+        $this->addHeader('X-authorization', "Basic {$this->authorization}");
+        $this->addHeader('user_key', $this->user_key);
         return $this;
     }
 
     protected function setTimestamp()
     {
         $dateTime = new \DateTime('now', new \DateTimeZone('UTC'));
-        $this->timestamp = (string)$dateTime->getTimestamp();
+        $this->timestamp = (string) $dateTime->getTimestamp();
         return $this;
     }
 
@@ -176,7 +180,13 @@ class BpjsService
     {
         $data = "{$this->username}:{$this->password}:{$this->app_code}";
         $encodedAuth = base64_encode($data);
-        $this->authorization = "Basic {$encodedAuth}";
+        $this->authorization = $encodedAuth;
+        return $this;
+    }
+
+    protected function setServiceName(string $serviceName)
+    {
+        $this->service_name = $serviceName;
         return $this;
     }
 
@@ -188,6 +198,7 @@ class BpjsService
     protected function addHeader($key, $value)
     {
         $this->headers[$key] = $value;
+        return $this;
     }
 
     protected function getHeaders()
@@ -208,15 +219,15 @@ class BpjsService
     protected function get($feature, $parameters = [])
     {
         $params = $this->getParams($parameters);
-        $this->headers['Content-Type'] = 'application/json; charset=utf-8';
+        $this->addHeader('Content-Type', 'application/json; charset=utf-8');
         try {
             $response = $this->clients->request(
                 'GET',
-                "{$this->base_url}/{$this->service_name}/{$feature}{$params}",
+                "{$this->getBaseUrl()}/{$this->getServiceName()}/{$feature}{$params}",
                 [
-                    'headers' => $this->headers
+                    'headers' => $this->getHeaders()
                 ]
-            )->getBody()->getContents(); 
+            )->getBody()->getContents();
         } catch (\Exception $e) {
             $response =  $this->decorateException($e);
         }
@@ -225,18 +236,18 @@ class BpjsService
 
     protected function post($feature, $data = [], $headers = [])
     {
-        $this->headers['Content-Type'] = 'application/json';
-        $this->headers['Accept'] = 'application/json';
+        $this->addHeader('Content-Type', 'application/json');
+        $this->addHeader('Accept', 'application/json');
         if (!empty($headers)){
             $this->headers = array_merge($this->headers, $headers);
         }
         try {
             $response = $this->clients->request(
                 'POST',
-                "{$this->base_url}/{$this->service_name}/{$feature}",
+                "{$this->getBaseUrl()}/{$this->getServiceName()}/{$feature}",
                 [
-                    'headers' => $this->headers,
-                    'body'    => json_encode($data),
+                    'headers' => $this->getHeaders(),
+                    'body' => json_encode($data),
                 ]
             )->getBody()->getContents();
         } catch (\Exception $e) {
@@ -247,15 +258,15 @@ class BpjsService
 
     protected function put($feature, $data = [])
     {
-        $this->headers['Content-Type'] = 'application/json';
-        $this->headers['Accept'] = 'application/json';
+        $this->addHeader('Content-Type', 'application/json');
+        $this->addHeader('Accept', 'application/json');
         try {
             $response = $this->clients->request(
                 'PUT',
-                "{$this->base_url}/{$this->service_name}/{$feature}",
+                "{$this->getBaseUrl()}/{$this->getServiceName()}/{$feature}",
                 [
-                    'headers' => $this->headers,
-                    'body'    => json_encode($data),
+                    'headers' => $this->getHeaders(),
+                    'body' => json_encode($data),
                 ]
             )->getBody()->getContents();
         } catch (\Exception $e) {
@@ -267,9 +278,9 @@ class BpjsService
     protected function delete($feature, $id, $parameters = [])
     {
         $params = $this->getParams($parameters);
-        $this->headers['Content-Type'] = 'application/json';
-        $this->headers['Accept'] = 'application/json';
-        $url = "{$this->base_url}/{$this->service_name}";
+        $this->addHeader('Content-Type', 'application/json');
+        $this->addHeader('Accept', 'application/json');
+        $url = "{$this->getBaseUrl()}/{$this->getServiceName()}";
         if ($id !== null) {
             $url .= "/{$feature}/{$id}";
         } else {
@@ -280,7 +291,7 @@ class BpjsService
                 'DELETE',
                 "{$url}{$params}",
                 [
-                    'headers' => $this->headers,
+                    'headers' => $this->getHeaders(),
                 ]
             )->getBody()->getContents();
         } catch (\Exception $e) {
@@ -300,6 +311,41 @@ class BpjsService
             }
         }
         return $params;
+    }
+    
+    private function stringDecrypt($key, $string){
+        $encrypt_method = 'AES-256-CBC';
+
+        // hash
+        $key_hash = hex2bin(hash('sha256', $key));
+  
+        // iv - encrypt method AES-256-CBC expects 16 bytes - else you will get a warning
+        $iv = substr(hex2bin(hash('sha256', $key)), 0, 16);
+
+        $output = openssl_decrypt(base64_decode($string), $encrypt_method, $key_hash, OPENSSL_RAW_DATA, $iv);
+  
+        return $output;
+    }
+
+    private function decompress($string){
+        return \LZCompressor\LZString::decompressFromEncodedURIComponent($string);
+    }
+
+    private function getKey()
+    {
+        return "{$this->cons_id}{$this->secret_key}{$this->timestamp}";
+    }
+
+    private function decorateResponse(string $response)
+    {
+        $response = json_decode($response, true);
+        $value = $response['response'];
+        if (!empty($value)) {
+            $decrypted = $this->stringDecrypt($this->getKey(), $value);
+            $decompressed = $this->decompress($decrypted);
+            $response['response'] = json_decode($decompressed, true);
+        }
+        return $response;
     }
 
     private function decorateException($e)

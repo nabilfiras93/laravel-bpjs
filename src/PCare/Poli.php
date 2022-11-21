@@ -1,8 +1,6 @@
 <?php namespace Awageeks\Bpjs\PCare;
 
-use Awageeks\Bpjs\BpjsService;
-
-class Poli extends BpjsService
+class Poli extends BasePcare
 {
     /**
      * @var string
