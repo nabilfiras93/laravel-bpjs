@@ -1,8 +1,6 @@
 <?php namespace Awageeks\Bpjs\PCare;
 
-use Awageeks\Bpjs\BpjsService;
-
-class Diagnosa extends BpjsService
+class Diagnosa extends BasePcare
 {
     /**
      * @var string

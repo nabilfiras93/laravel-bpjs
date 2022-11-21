@@ -1,8 +1,6 @@
 <?php namespace Awageeks\Bpjs\PCare;
 
-use Awageeks\Bpjs\BpjsService;
-
-class Kunjungan extends BpjsService
+class Kunjungan extends BasePcare
 {
     /**
      * @var string
