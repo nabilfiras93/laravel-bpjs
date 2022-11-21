@@ -1,8 +1,6 @@
 <?php namespace Awageeks\Bpjs\PCare;
 
-use Awageeks\Bpjs\BpjsService;
-
-class Kesadaran extends BpjsService
+class Kesadaran extends BasePcare
 {
     /**
      * @var string

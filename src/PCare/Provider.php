@@ -1,8 +1,6 @@
 <?php namespace Awageeks\Bpjs\PCare;
 
-use Awageeks\Bpjs\BpjsService;
-
-class Provider extends BpjsService
+class Provider extends BasePcare
 {
     /**
      * @var string

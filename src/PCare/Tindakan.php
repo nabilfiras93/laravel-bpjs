@@ -1,8 +1,6 @@
 <?php namespace Awageeks\Bpjs\PCare;
 
-use Awageeks\Bpjs\BpjsService;
-
-class Tindakan extends BpjsService
+class Tindakan extends BasePcare
 {
     /**
      * @var string
