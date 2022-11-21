@@ -1,8 +1,6 @@
 <?php namespace Awageeks\Bpjs\PCare;
 
-use Awageeks\Bpjs\BpjsService;
-
-class StatusPulang extends BpjsService
+class StatusPulang extends BasePcare
 {
     /**
      * @var string

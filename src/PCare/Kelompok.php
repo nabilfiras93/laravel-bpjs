@@ -1,8 +1,6 @@
 <?php namespace Awageeks\Bpjs\PCare;
 
-use Awageeks\Bpjs\BpjsService;
-
-class Kelompok extends BpjsService
+class Kelompok extends BasePcare
 {
     /**
      * @var string
