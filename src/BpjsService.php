@@ -352,31 +352,34 @@ class BpjsService
     {
         $message = $e->getMessage();
         $code = $e->getCode();
-        \Log::error($message . PHP_EOL . $e->getTraceAsString());
 
         if ($e instanceof ClientException) {
             if ($e->hasResponse()) {
                 $clientResponse = $e->getResponse();
+                $message = $clientResponse->getReasonPhrase();
+                $code = $clientResponse->getStatusCode();
+                $body = $clientResponse->getBody();
 
-                $result = json_decode($clientResponse->getBody());
-                $response = $result->response;
-
-                if (is_object($response)) {
-                    $message = $response->message;
-                } else {
-                    $message = $result->metaData->message;
-                }
-                $code = $result->metaData->code;
-                
+                $content = json_decode($body->getContents());
+                if ($content) {
+                    $response = $content->response ?: null;
+                    if (is_object($response)) {
+                        $message = $response->message;
+                    }                
+                }                
             }
         }
 
-        return json_encode([
+        $result = json_encode([
             'response' => $message,
             'metaData' =>  [
                 'message' => $message,
                 'code' => $code ?: 400,
             ],
         ]);
+
+        \Log::error($result . PHP_EOL . $e->getTraceAsString());
+
+        return $result;
     }
 }
