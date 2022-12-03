@@ -352,6 +352,7 @@ class BpjsService
     {
         $message = $e->getMessage();
         $code = $e->getCode();
+        \Log::error($message . PHP_EOL . $e->getTraceAsString());
 
         if ($e instanceof ClientException) {
             if ($e->hasResponse()) {
@@ -359,13 +360,17 @@ class BpjsService
 
                 $result = json_decode($clientResponse->getBody());
                 $response = $result->response;
-                
-                $message = $response->message;
+
+                if (is_object($response)) {
+                    $message = $response->message;
+                } else {
+                    $message = $result->metaData->message;
+                }
                 $code = $result->metaData->code;
+                
             }
         }
 
-        \Log::error($message . PHP_EOL . $e->getTraceAsString());
         return json_encode([
             'response' => $message,
             'metaData' =>  [
