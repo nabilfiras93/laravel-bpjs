@@ -229,7 +229,7 @@ class BpjsService
                 ]
             )->getBody()->getContents();
         } catch (\Exception $e) {
-            $response =  $this->decorateException($e);
+            $response = $this->decorateException($e);
         }
         return $response;
     }
@@ -251,7 +251,7 @@ class BpjsService
                 ]
             )->getBody()->getContents();
         } catch (\Exception $e) {
-            $response =  $this->decorateException($e);
+            $response = $this->decorateException($e);
         }
         return $response;
     }
@@ -270,7 +270,7 @@ class BpjsService
                 ]
             )->getBody()->getContents();
         } catch (\Exception $e) {
-            $response =  $this->decorateException($e);
+            $response = $this->decorateException($e);
         }
         return $response;
     }
@@ -295,7 +295,7 @@ class BpjsService
                 ]
             )->getBody()->getContents();
         } catch (\Exception $e) {
-            $response =  $this->decorateException($e);
+            $response = $this->decorateException($e);
         }
         return $response;
     }
@@ -355,20 +355,19 @@ class BpjsService
 
         if ($e instanceof ClientException) {
             if ($e->hasResponse()) {
-                $response = $e->getResponse();
-                $code = $response->getStatusCode();
-                $message = $response->getReasonPhrase();
-                $body = (string) $response->getBody();
-                $message = "{$message}: {$body}";
+                $clientResponse = $e->getResponse();
+
+                $result = json_decode($clientResponse->getBody());
+                $response = $result->response;
+                
+                $message = $response->message;
+                $code = $result->metaData->code;
             }
-        } else {
-            $message = $e->getMessage();
-            $code = $e->getCode();
         }
 
         \Log::error($message . PHP_EOL . $e->getTraceAsString());
         return json_encode([
-            'response' => [],
+            'response' => $message,
             'metaData' =>  [
                 'message' => $message,
                 'code' => $code ?: 400,
