@@ -2,10 +2,10 @@
 
 class Spesialis extends BasePcare
 {
-    /**
-     * @var string
-     */
     protected $feature = 'spesialis';
+    protected $subFeature;
+    protected $param;
+    protected $isRujuk = false;
 
     public function rujuk()
     {
@@ -15,19 +15,17 @@ class Spesialis extends BasePcare
 
     public function subSpesialis($kodeSpesialis = null)
     {
-        $this->feature .= "/subspesialis";
-        if ($kodeSpesialis !== null) {
-            $this->feature .= "/{$kodeSpesialis}";
-        }
+        $this->subFeature = "subspesialis";
+        $this->param = $kodeSpesialis;
+        $this->setFeature();
         return $this;
     }
 
     public function sarana($kodeSarana = null)
     {
-        $this->feature .= "/sarana";
-        if ($kodeSarana !== null) {
-            $this->feature .= "/{$kodeSarana}";
-        }
+        $this->subFeature = "subspesialis";
+        $this->param = $kodeSarana;
+        $this->setFeature();
         return $this;
     }
 
@@ -39,19 +37,29 @@ class Spesialis extends BasePcare
 
     public function khusus($kodeKhusus = null)
     {
-        $this->feature .= "/khusus";
-        if ($kodeKhusus !== null) {
-            $this->feature .= "/{$kodeKhusus}";
-        }
+        $this->subFeature = "subspesialis";
+        $this->param = $kodeKhusus;
+        $this->setFeature();
         return $this;
     }
 
     public function nomorKartu($nomorKartu = null)
     {
-        $this->feature .= "/noKartu";
-        if ($nomorKartu !== null) {
-            $this->feature .= "/{$nomorKartu}";
-        }
+        $this->feature .= "/noKartu/{$nomorKartu}";
         return $this;
+    }
+
+    private function setFeature()
+    {
+        if ($this->isRujuk) {
+            $this->feature .= "/{$this->subFeature}/{$this->param}";
+        } else {
+            $this->feature .= "/{$this->param}/{$this->subFeature}";
+        }
+    }
+
+    public function setRujuk(bool $isRujuk)
+    {
+        $this->isRujuk = $isRujuk;
     }
 }
