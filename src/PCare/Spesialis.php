@@ -23,7 +23,7 @@ class Spesialis extends BasePcare
 
     public function sarana($kodeSarana = null)
     {
-        $this->subFeature = "subspesialis";
+        $this->subFeature = "sarana";
         $this->param = $kodeSarana;
         $this->setFeature();
         return $this;
@@ -37,7 +37,7 @@ class Spesialis extends BasePcare
 
     public function khusus($kodeKhusus = null)
     {
-        $this->subFeature = "subspesialis";
+        $this->subFeature = "khusus";
         $this->param = $kodeKhusus;
         $this->setFeature();
         return $this;
