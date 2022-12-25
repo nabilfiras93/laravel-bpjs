@@ -236,7 +236,7 @@ class BpjsService
 
     protected function post($feature, $data = [], $headers = [])
     {
-        $this->addHeader('Content-Type', 'application/json');
+        $this->addHeader('Content-Type', 'text/plain');
         $this->addHeader('Accept', 'application/json');
         if (!empty($headers)){
             $this->headers = array_merge($this->headers, $headers);
