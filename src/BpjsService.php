@@ -108,22 +108,22 @@ class BpjsService
         return $this;
     }
 
-    public function index($start = null, $limit = null)
+    public function index($offset = null, $limit = null)
     {
         $feature = $this->feature;
-        if ($start !== null and $limit !== null) {
-            $response = $this->get("{$feature}/{$start}/{$limit}");
+        if ($offset !== null and $limit !== null) {
+            $response = $this->get("{$feature}/{$offset}/{$limit}");
         } else {
             $response = $this->get("{$feature}");
         }
         return $this->decorateResponse($response);
     }
 
-    public function show($keyword = null, $start = null, $limit = null)
+    public function show($keyword = null, $offset = null, $limit = null)
     {
         $feature = $this->feature;
-        if ($start !== null and $limit !== null) {
-            $response = $this->get("{$feature}/{$keyword}/{$start}/{$limit}");
+        if ($offset !== null and $limit !== null) {
+            $response = $this->get("{$feature}/{$keyword}/{$offset}/{$limit}");
         } elseif ($keyword !== null) {
             $response = $this->get("{$feature}/{$keyword}");
         } else {
