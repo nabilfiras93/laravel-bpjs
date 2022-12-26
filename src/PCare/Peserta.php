@@ -17,13 +17,11 @@ class Peserta extends BasePcare
      * Get pcare peserte by nomor kartu.
      *
      * @param string $keyword
-     * @return void
+     * @return array
      */
-    public function getPesertaByNoka(string $keyword = '')
+    public function getPesertaByNoka($keyword = null)
     {
-        if ($keyword) {
-            $this->setKeyword($keyword);
-        }
+        $this->setKeyword($keyword);
 
         return $this->getPeserta('noka');
     }
@@ -32,13 +30,11 @@ class Peserta extends BasePcare
      * Get pcare peserta by nik.
      *
      * @param string $keyword
-     * @return void
+     * @return array
      */
-    public function getPesertaByNik(string $keyword = '')
+    public function getPesertaByNik($keyword = null)
     {
-        if ($keyword) {
-            $this->setKeyword($keyword);
-        }
+        $this->setKeyword($keyword);
 
         return $this->getPeserta('nik');
     }

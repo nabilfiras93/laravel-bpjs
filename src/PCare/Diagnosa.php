@@ -15,19 +15,11 @@ class Diagnosa extends BasePcare
      * @param int $limit
      * @return array
      */
-    public function getDiagnosa(string $keyword = '', int $offset = null, int $limit = null)
+    public function getDiagnosa($keyword = null, $offset = null, $limit = null)
     {
-        if ($keyword) {
-            $this->setKeyword($keyword);
-        }
-
-        if ($offset) {
-            $this->setKeyword($offset);
-        }
-
-        if ($limit) {
-            $this->setKeyword($limit);
-        }
+        $this->setKeyword($keyword);
+        $this->setOffset($offset);
+        $this->setLimit($limit);
 
         $this->setResponse($this->keyword($this->keyword)->index($this->offset, $this->limit));
 

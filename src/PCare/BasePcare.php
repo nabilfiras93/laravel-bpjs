@@ -22,12 +22,11 @@ class BasePcare extends BpjsService
      * @param string $keyword
      * @return void
      */
-    public function setKeyword(string $keyword)
+    public function setKeyword($keyword)
     {
-        if (strlen($keyword) < 3) {
-            throw new \ErrorException('The keyword must be 3 or more characters.', \Illuminate\Http\Response::HTTP_BAD_REQUEST);
+        if (!is_null($keyword)) {
+            $this->keyword = $keyword;
         }
-        $this->keyword = $keyword;
     }
 
     /**
@@ -36,9 +35,11 @@ class BasePcare extends BpjsService
      * @param integer $offset
      * @return void
      */
-    public function setOffset(int $offset)
+    public function setOffset($offset)
     {
-        $this->offset = $offset;
+        if (!is_null($offset) and is_numeric($offset)) {
+            $this->offset = $offset;
+        }
     }
 
     /**
@@ -47,9 +48,11 @@ class BasePcare extends BpjsService
      * @param integer $limit
      * @return void
      */
-    public function setLimit(int $limit)
+    public function setLimit($limit)
     {
-        $this->limit = $limit;
+        if (!is_null($limit) and is_numeric($limit)) {
+            $this->limit = $limit;
+        }
     }
 
     protected function setResponse($response)
