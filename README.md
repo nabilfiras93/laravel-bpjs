@@ -32,109 +32,182 @@ BPJS_SERVICE_PCARE=pcare-rest-dev
 
 ## Usage
 
+### Diagnosa
+
 ```
-// diagnosa
-$bpjs = new Awageeks\Bpjs\Pcare\Diagnosa();
-return $bpjs->keyword($keyword)->index($start, $limit);
+$pcare = new Awageeks\Bpjs\Pcare\Diagnosa();
+$pcare->setKeyword('A00');
+$pcare->setOffset(0);
+$pcare->setLimit(10);
+$response = $pcare->getDiagnosa();
+
+// or
+$pcare = new Awageeks\Bpjs\Pcare\Diagnosa();
+$response = $pcare->getDiagnosa('A00', 0, 10);
 ```
+
+### Dokter
+
 ```
-// dokter
-$bpjs = new Awageeks\Bpjs\Pcare\Dokter();
-return $bpjs->index($start, $limit);
+$pcare = new Awageeks\Bpjs\PCare\Dokter();
+$pcare->setOffset(0);
+$pcare->setLimit(10);
+$response = $pcare->getDokter();
+
+// or
+$pcare = new Awageeks\Bpjs\PCare\Dokter();
+$response = $pcare->getDokter(0, 10);
 ```
+
+### Kesadaran
+
 ```
-// kesadaran
-$bpjs = new Awageeks\Bpjs\Pcare\Kesadaran();
-return $bpjs->index();
+$pcare = new Awageeks\Bpjs\PCare\Kesadaran();
+$response = $pcare->getKesadaran();
 ```
+
+### Peserta
+
+#### Peserta By Nomor Kartu
+
 ```
-// kunjungan rujukan
-$bpjs = new Awageeks\Bpjs\Pcare\Kunjungan();
-return $bpjs->rujukan($nomorKunjungan)->index();
-// kunjungan riwayat
-$bpjs = new Awageeks\Bpjs\Pcare\Kunjungan();
-return $bpjs->riwayat($nomorKartu)->index();
+$pcare = new Awageeks\Bpjs\PCare\Peserta();
+$pcare->setKeyword('0001261832477');
+$response = $pcare->getPesertaByNoka();
+
+// or
+$pcare = new Awageeks\Bpjs\PCare\Peserta();
+$response = $pcare->getPesertaByNoka('0001261832477');
 ```
+
+#### Peserta By NIK
+
 ```
-// mcu
-$bpjs = new Awageeks\Bpjs\Pcare\Mcu();
-return $bpjs->kunjungan($nomorKunjungan)->index();
+$pcare = new Awageeks\Bpjs\PCare\Peserta();
+$pcare->setKeyword('3174016909650001');
+$response = $pcare->getPesertaByNik();
+
+// or
+$pcare = new Awageeks\Bpjs\PCare\Peserta();
+$response = $pcare->getPesertaByNik('3174016909650001');
 ```
+
+### Poli
+
 ```
-// obat dpho
-$bpjs = new Awageeks\Bpjs\Pcare\Obat();
-return $bpjs->dpho($keyword)->index($start, $limit);
-// obat kunjungan
-$bpjs = new Awageeks\Bpjs\Pcare\Obat();
-return $bpjs->kunjungan($nomorKunjungan)->index();
+$pcare = new Awageeks\Bpjs\PCare\Poli();
+$pcare->setOffset(0);
+$pcare->setLimit(10);
+$response = $pcare->getPoli();
+
+// or
+$pcare = new Awageeks\Bpjs\PCare\Poli();
+$response = $pcare->getPoli(0, 10);
 ```
+
+### Provider
+
 ```
-// pendaftaran tanggal daftar
-$bpjs = new Awageeks\Bpjs\Pcare\Pendaftaran();
-return $bpjs->tanggalDaftar($tglDaftar)->index($start, $limit);
-// pendaftaran nomor urut
-$bpjs = new Awageeks\Bpjs\Pcare\Pendaftaran();
-return $bpjs->nomorUrut($nomorUrut)->tanggalDaftar($tanggalDaftar)->index();
+$pcare = new Awageeks\Bpjs\PCare\Provider();
+$pcare->setOffset(0);
+$pcare->setLimit(10);
+$response = $pcare->getProvider();
+
+// or
+$pcare = new Awageeks\Bpjs\PCare\Provider();
+$response = $pcare->getProvider(0, 10);
 ```
-```
-// peserta
-$bpjs = new Awageeks\Bpjs\Pcare\Peserta();
-return $bpjs->keyword($keyword)->show();
-// peserta jenis kartu [NIK/NOKA]
-$bpjs = new Awageeks\Bpjs\Pcare\Peserta();
-return $bpjs->jenisKartu($jenisKartu)->keyword($keyword)->show();
-```
-```
-// poli
-$bpjs = new Awageeks\Bpjs\Pcare\Poli();
-return $bpjs->fktp()->index($start, $limit);
-```
-```
-// provider
-$bpjs = new Awageeks\Bpjs\Pcare\Provider();
-return $bpjs->index($start, $limit);
-```
-```
-// tindakan kode tkp
-$bpjs = new Awageeks\Bpjs\Pcare\Tindakan();
-return $bpjs->kodeTkp($keyword)->index($start, $limit);
-// tindakan kunjungan
-$bpjs = new Awageeks\Bpjs\Pcare\Tindakan();
-return $bpjs->kunjungan($nomorKunjungan)->index();
-```
-```
-// kelompok club
-$bpjs = new Awageeks\Bpjs\Pcare\Kelompok();
-return $bpjs->club($kodeJenisKelompok)->index();
-// kelompok kegiatan
-$bpjs = new Awageeks\Bpjs\Pcare\Kelompok();
-return $bpjs->kegiatan($bulan)->index();
-// kelompok peserta
-$bpjs = new Awageeks\Bpjs\Pcare\Kelompok();
-return $bpjs->peserta($eduId)->index();
-```
+
+### Spesialis
+
+#### Spesialis
+
 ```
 // spesialis
-$bpjs = new Awageeks\Bpjs\Pcare\Spesialis();
-return $bpjs->index();
-// spesialis sub spesialis
-$bpjs = new Awageeks\Bpjs\Pcare\Spesialis();
-return $bpjs->keyword($keyword)->subSpesialis()->index();
-// spesialis sarana
-$bpjs = new Awageeks\Bpjs\Pcare\Spesialis();
-return $bpjs->sarana()->index();
-// spesialis khusus
-$bpjs = new Awageeks\Bpjs\Pcare\Spesialis();
-return $bpjs->khusus()->index();
-// spesialis rujuk
-$bpjs = new Awageeks\Bpjs\Pcare\Spesialis();
-return $bpjs->rujuk()->subSpesialis($kodeSubSpesialis)->sarana($kodeSarana)->tanggalRujuk($tanggalRujuk)->index();
-// spesialis rujuk
-$bpjs = new Awageeks\Bpjs\Pcare\Spesialis();
-return $bpjs->rujuk()->khusus($kodeKhusus)->nomorKartu($nomorKartu)->tanggalRujuk($tanggalRujuk)->index();
-// spesialis rujuk
-$bpjs = new Awageeks\Bpjs\Pcare\Spesialis();
-return $bpjs->rujuk()->khusus($kodeKhusus)->subSpesialis($kodeSubSpesialis)->nomorKartu($nomorKartu)->tanggalRujuk($tanggalRujuk)->index();
+$pcare = new Awageeks\Bpjs\PCare\Spesialis();
+$response = $pcare->getSpesialis();
+```
+
+#### Subspesialis
+
+```
+// sub spesialis
+$pcare = new Awageeks\Bpjs\PCare\Spesialis();
+$pcare->setKeyword('ANA');
+$response = $pcare->getSubSpesialis();
+
+// or
+$pcare = new Awageeks\Bpjs\PCare\Spesialis();
+$response = $pcare->getSubSpesialis('ANA');
+```
+
+#### Sarana
+
+```
+$pcare = new Awageeks\Bpjs\PCare\Spesialis();
+$response = $pcare->getSarana();
+```
+
+#### Khusus
+
+```
+$pcare = new Awageeks\Bpjs\PCare\Spesialis();
+$response = $pcare->getKhusus();
+```
+
+#### Faskes Rujukan Subspesialis
+
+```
+$pcare = new Awageeks\Bpjs\PCare\Spesialis();
+$pcare->setKodeSubspesialis('3');
+$pcare->setKodeSarana('1');
+$pcare->setTanggalRujuk('27-12-2022');
+$response = $pcare->getFaskesRujukanSubspesialis();
+
+// or
+$pcare = new Awageeks\Bpjs\PCare\Spesialis();
+$response = $pcare->getFaskesRujukanSubspesialis(3, 1, '27-12-2022');
+```
+
+#### Faskes Rujukan Khusus
+
+```
+$pcare = new Awageeks\Bpjs\PCare\Spesialis();
+$pcare->setKodeKhusus('IGD');
+$pcare->setNomorKartu('0001261832477');
+$pcare->setTanggalRujuk('27-12-2022');
+$response = $pcare->getFaskesRujukanKhusus();
+
+// or
+$pcare = new Awageeks\Bpjs\PCare\Spesialis();
+$response = $pcare->getFaskesRujukanKhusus('IGD', '0001261832477', '27-12-2022');
+```
+
+#### Faskes Rujukan Khusus Subspesialis
+
+```
+$pcare = new Awageeks\Bpjs\PCare\Spesialis();
+$pcare->setKodeKhusus('THA');
+$pcare->setKodeSubspesialis('3');
+$pcare->setNomorKartu('0001261832477');
+$pcare->setTanggalRujuk('27-12-2022');
+$response = $pcare->getFaskesRujukanKhususSubspesialis();
+
+// or
+$pcare = new Awageeks\Bpjs\PCare\Spesialis();
+$response = $pcare->getFaskesRujukanKhususSubspesialis('THA', '3', '0001261832477', '27-12-2022');
+```
+
+### Status Pulang
+
+```
+// rawat inap
+$pcare = new Awageeks\Bpjs\PCare\StatusPulang();
+$response = $pcare->getStatusPulangRawatInap();
+
+// rawat jalan
+$pcare = new Awageeks\Bpjs\PCare\StatusPulang();
+$response = $pcare->getStatusPulangRawatJalan();
 ```
 
 ## Contributions
