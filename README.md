@@ -210,5 +210,17 @@ $pcare = new Awageeks\Bpjs\PCare\StatusPulang();
 $response = $pcare->getStatusPulangRawatJalan();
 ```
 
+### Pendaftaran
+
+```
+// add pendaftaran
+$pcare = new Awageeks\Bpjs\PCare\Pendaftaran();
+$response = $pcare->addPendaftaran($request);
+
+// delete pendaftaran
+$pcare = new Awageeks\Bpjs\PCare\Pendaftaran();
+$response = $pcare->deletePendaftaran($nomorKartu, $tanggalDaftar, $nomorUrut, $kodePoli);
+```
+
 ## Contributions
 Your contribution is always welcome!
