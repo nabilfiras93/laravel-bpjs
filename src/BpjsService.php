@@ -258,7 +258,7 @@ class BpjsService
 
     protected function put($feature, $data = [])
     {
-        $this->addHeader('Content-Type', 'application/json');
+        $this->addHeader('Content-Type', 'text/plain');
         $this->addHeader('Accept', 'application/json');
         try {
             $response = $this->clients->request(
@@ -278,7 +278,7 @@ class BpjsService
     protected function delete($feature, $id, $parameters = [])
     {
         $params = $this->getParams($parameters);
-        $this->addHeader('Content-Type', 'application/json');
+        $this->addHeader('Content-Type', 'application/json; charset=utf-8');
         $this->addHeader('Accept', 'application/json');
         $url = "{$this->getBaseUrl()}/{$this->getServiceName()}";
         if ($id !== null) {
@@ -365,8 +365,8 @@ class BpjsService
                     $response = $content->response ?: null;
                     if (is_object($response)) {
                         $message = $response->message;
-                    }                
-                }                
+                    }
+                }
             }
         }
 
